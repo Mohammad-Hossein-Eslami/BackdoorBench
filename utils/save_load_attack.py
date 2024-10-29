@@ -195,8 +195,9 @@ def load_attack_result(
     save_path MUST have 'record' in its abspath, and data_path in attack result MUST have 'data' in its path!!!
     save_path : the path of "attack_result.pt"
     '''
-    save_path = '/kaggle/working/BackdoorBench/record/' + save_path
+    save_path = '/kaggle/working/BackdoorBench/record/' + save_path + 'attack_result.pt'
     load_file = torch.load(save_path)
+    print(load_file.keys())
 
     if all(key in load_file for key in ['model_name',
         'num_classes',
