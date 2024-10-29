@@ -441,7 +441,7 @@ class anp(defense):
             self.args.log = save_path + 'log/'
             if not (os.path.exists(self.args.log)):
                 os.makedirs(self.args.log)
-        self.result = load_attack_result('/content/0/model.pt')
+        self.result = load_attack_result(args.result_file)
 
     def set_trainer(self, model):
         self.trainer = PureCleanModelTrainer(
