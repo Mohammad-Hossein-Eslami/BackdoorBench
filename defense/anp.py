@@ -138,16 +138,16 @@ def mask_train(args, model, criterion, mask_opt, noise_opt, data_loader):
     nb_samples = 0
     custom_corrects = 0
 
-    first_out = model(images)
-    first_pred = first_out.data.max(1)[1]
-    first_corrects += first_pred.eq(labels.view_as(first_pred)).sum()
-    first_acc = first_corrects / images.size(0)
+
 
     for i, (images, labels, *additional_info) in enumerate(data_loader):
         images, labels = images.to(args.device), labels.to(args.device)
         nb_samples += images.size(0)
 
-
+        first_out = model(images)
+        first_pred = first_out.data.max(1)[1]
+        first_corrects += first_pred.eq(labels.view_as(first_pred)).sum()
+        first_acc = first_corrects / images.size(0)
 
         # step 1: calculate the adversarial perturbation for neurons
         if args.anp_eps > 0.0:
