@@ -710,19 +710,7 @@ class anp(defense):
         result = self.result
         # a. train the mask of old model
         train_tran = get_transform(self.args.dataset, *([self.args.input_height, self.args.input_width]), train=True)
-        image_files = []
-        for file_name in os.listdir('/content/0/test_dataset'):
-            image_files.append(file_name)  
-
-        images = []
-        transform = transforms.Compose([transforms.PILToTensor()])
-        for addr in image_files:
-          image = Image.open('/content/' + str(0) + '/test_dataset/' + addr)
-          image = transform(image)
-          images.append(image)
-          
-
-        clean_dataset = prepro_cls_DatasetBD_v2(images.wrapped_dataset)
+        clean_dataset = prepro_cls_DatasetBD_v2(self.result['clean_train'].wrapped_dataset)
         data_all_length = len(clean_dataset)
         ran_idx = choose_index(self.args, data_all_length)
         log_index = self.args.log + 'index.txt'
@@ -771,7 +759,7 @@ class anp(defense):
         for i in range(nb_repeat):
             start = time.time()
             lr = mask_optimizer.param_groups[0]['lr']
-            ratio = mask_train(args, model=net, criterion=criterion, data_loader=clean_val_loader, mask_opt=mask_optimizer, noise_opt=noise_optimizer)
+            acc = mask_train(args, model=net, criterion=criterion, data_loader=clean_val_loader, mask_opt=mask_optimizer, noise_opt=noise_optimizer)
             print(ratio)
 
         return ratio
